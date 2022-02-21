@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,7 +52,6 @@ namespace WindowsFormsApp7
            
            comboBox_size.Items.Add(72);
 
-            //      comboBox_font.DataSource = System.Drawing.FontFamily.Families.ToList();
             //       comboBox1.DataSource = typeof(Color).GetProperties()
             //.Where(x => x.PropertyType == typeof(Color))
             //.Select(x => x.GetValue(null)).ToList();
@@ -60,7 +60,10 @@ namespace WindowsFormsApp7
                 if (prop.PropertyType.FullName == "System.Drawing.Color")
                     comboBox1.Items.Add(prop.Name);
             }
-
+            foreach (FontFamily font in System.Drawing.FontFamily.Families)
+            {
+                comboBox_font.Items.Add(font.Name);
+            }
             //comboBox1.Items.Add("Red");
             //comboBox1.SelectedItem = null;
             //comboBox1.SelectedText = "Black";
@@ -68,26 +71,102 @@ namespace WindowsFormsApp7
             //comboBox_font.SelectedText = "[FontFamily: Name=Arial Narrow]";
             comboBox_size.SelectedItem = null;
             comboBox_size.SelectedText = "8";
+     
         }
-
+        List<FontStyle> fontstyles = new List<FontStyle>();
+     
         private void comboBox_font_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
             richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), FontStyle.Bold);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), FontStyle.Bold);
+            fontstyles.Clear(); 
+            if (button1.BackColor != Color.Green)
+            {
+
+                button1.BackColor = Color.Green;
+                fontstyles.Add(FontStyle.Bold);
+                
+            }
+            else
+            {
+                button1.BackColor = Color.Transparent;
+            }
+            if (button3.BackColor == Color.Green)
+            {
+                fontstyles.Add(FontStyle.Italic);
+            }
+            if (button2.BackColor == Color.Green)
+            {
+                fontstyles.Add(FontStyle.Underline);
+            }
+
+            if (fontstyles.Count == 3)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text),fontstyles[0] | fontstyles[1] | fontstyles[2]);
+            }
+            else if (fontstyles.Count == 2)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), fontstyles[0] | fontstyles[1] );
+            }
+            else if (fontstyles.Count == 1)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), fontstyles[0]);
+            }
+            else if (fontstyles.Count == 0)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text));
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), FontStyle.Italic);
+            fontstyles.Clear();
+            if (button3.BackColor != Color.Green)
+            {
+
+                button3.BackColor = Color.Green;
+                fontstyles.Add(FontStyle.Italic);
+              
+            }
+            else
+            {
+                button3.BackColor = Color.Transparent;
+            }
+            if (button1.BackColor == Color.Green)
+            {
+                fontstyles.Add(FontStyle.Bold);
+            }
+            if (button2.BackColor == Color.Green)
+            {
+                fontstyles.Add(FontStyle.Underline);
+            }
+
+            if (fontstyles.Count == 3)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), fontstyles[0] | fontstyles[1] | fontstyles[2]);
+            }
+            else if (fontstyles.Count == 2)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), fontstyles[0] | fontstyles[1]);
+            }
+            else if (fontstyles.Count == 1)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), fontstyles[0]);
+            }
+            else if (fontstyles.Count == 0)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text));
+            }
+           
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-      
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Left;
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -98,20 +177,84 @@ namespace WindowsFormsApp7
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
            
-            /*comboBox1.SelectedItem as string*/;
+           
 
 
-            richTextBox1.ForeColor = Color.FromName((comboBox1.SelectedItem as  string));
+            richTextBox1.SelectionColor = Color.FromName((comboBox1.SelectedItem as  string));
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), FontStyle.Underline);
+            fontstyles.Clear();
+            if (button2.BackColor != Color.Green)
+            {
+
+                button2.BackColor = Color.Green;
+                fontstyles.Add(FontStyle.Underline);
+
+            }
+            else
+            {
+                button2.BackColor = Color.Transparent;
+            }
+            if (button1.BackColor == Color.Green)
+            {
+                fontstyles.Add(FontStyle.Bold);
+            }
+            if (button3.BackColor == Color.Green)
+            {
+                fontstyles.Add(FontStyle.Italic);
+            }
+
+            if (fontstyles.Count == 3)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), fontstyles[0] | fontstyles[1] | fontstyles[2]);
+            }
+            else if (fontstyles.Count == 2)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), fontstyles[0] | fontstyles[1]);
+            }
+            else if (fontstyles.Count == 1)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), fontstyles[0]);
+            }
+            else if (fontstyles.Count == 0)
+            {
+                richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text));
+            }
         }
 
         private void comboBox_size_SelectedIndexChanged(object sender, EventArgs e)
         {
-            richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text), FontStyle.Underline);
+            richTextBox1.SelectionFont = new Font(comboBox_font.Text, int.Parse(comboBox_size.Text));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string filename = textBox1.Text;
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                richTextBox1.Text = sr.ReadToEnd();
+            }
+            textBox1.Text = null;
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            string filename = textBox2.Text;
+            using (StreamWriter sr = new StreamWriter(filename))
+            {
+                sr.Write(richTextBox1.Text);
+            }
+            textBox2.Text = null;
         }
     }
 }
